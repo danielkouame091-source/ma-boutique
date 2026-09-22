@@ -1,1 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abidjan Import-Export | Négoce & Commerce International</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
 
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-4">
+                
+                <!-- Logo -->
+                <div class="flex items-center gap-2">
+                    <a href="#" class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-500 via-green-600 to-emerald-700 flex items-center justify-center text-white font-bold text-xl shadow-md">
+                            <i class="fa-solid fa-ship"></i>
+                        </div>
+                        <div>
+                            <span class="font-extrabold text-xl text-gray-900 tracking-tight block leading-none">Ivoire Import-Export</span>
+                            <span class="text-[10px] text-orange-600 font-bold uppercase tracking-widest">Abidjan • Côte d'Ivoire</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-md hidden md:block">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchInput" placeholder="Rechercher un produit (Cacao, Riz, Anacarde...)" 
+                            class="w-full pl-10 pr-4 py-2 bg-gray-100 border border-transparent rounded-full text-sm focus:bg-white focus:border-green-600 focus:outline-none transition-all">
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-4">
+                    <button id="cartBtn" class="relative p-2.5 text-gray-700 hover:text-green-600 rounded-full hover:bg-green-50 transition-colors">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        <span id="cartBadge" class="absolute -top-1 -right-1 bg-orange-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Search Bar -->
+        <div class="px-4 pb-3 md:hidden">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="mobileSearchInput" placeholder="Rechercher un produit..." 
+                    class="w-full pl-10 pr-4 py-2 bg-gray-100 border border-transparent rounded-full text-sm focus:bg-white focus:border-green-600 focus:outline-none transition-all">
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-emerald-800 via-green-700 to-orange-600 text-white py-12 px-4 shadow-inner">
+        <div class="max-w-7xl mx-auto text-center space-y-4">
+            <span class="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Plateforme de Négoce International</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Importation & Exportation à Abidjan</h1>
+            <p class="text-emerald-100 max-w-2xl mx-auto text-sm md:text-base">Exportation de matières premières ivoiriennes certifiées et Importation de marchandises générales de haute qualité.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Category Filters -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none" id="categoriesContainer">
+            <button class="category-btn active px-5 py-2 rounded-full text-sm font-medium bg-green-700 text-white shadow-sm hover:bg-green-800 transition-all whitespace-nowrap" data-category="all">
+                Tous les produits
+            </button>
+            <button class="category-btn px-5 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all whitespace-nowrap" data-category="Exportation">
+                <i class="fa-solid fa-plane-departure mr-1.5 text-orange-500"></i> Exportation (Local)
+            </button>
+            <button class="category-btn px-5 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all whitespace-nowrap" data-category="Importation">
+                <i class="fa-solid fa-plane-arrival mr-1.5 text-green-600"></i> Importation (Alimentaire)
+            </button>
+            <button class="category-btn px-5 py-2 rounded-full text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all whitespace-nowrap" data-category="High-Tech">
+                <i class="fa-solid fa-laptop mr-1.5 text-blue-600"></i> Électronique & Tech
+            </button>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Injecté par JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="noResults" class="hidden text-center py-16">
+            <i class="fa-solid fa-box-open text-5xl text-gray-300 mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-700">Aucun produit trouvé</h3>
+            <p class="text-gray-500 text-sm mt-1">Essayez de modifier votre recherche ou votre filtre.</p>
+        </div>
+    </main>
+
+    <!-- Shopping Cart Modal Slide-over -->
+    <div id="cartModal" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" id="cartOverlay"></div>
+
+        <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                
+                <!-- Cart Header -->
+                <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-green-600"></i>
+                        Votre Bon de Commande
+                    </h2>
+                    <button id="closeCartBtn" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items Container -->
+                <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <!-- Injecté par JavaScript -->
+                </div>
+
+                <!-- Cart Footer -->
+                <div id="cartFooter" class="p-6 border-t border-gray-100 bg-gray-50 space-y-4">
+                    <div class="flex justify-between text-base font-bold text-gray-900">
+                        <span>Total Estimé :</span>
+                        <span id="cartTotal" class="text-green-700 font-extrabold text-xl">0 FCFA</span>
+                    </div>
+                    <button id="checkoutBtn" class="w-full bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+                        <span>Valider la commande</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <div class="flex min-h-screen items-center justify-center p-4">
+            <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" id="checkoutOverlay"></div>
+
+            <div class="relative bg-white rounded-2xl shadow-xl max-w-lg w-full p-6 space-y-6 z-10">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <h3 class="text-xl font-bold text-gray-900">Coordonnées de Livraison / Cotation</h3>
+                    <button id="closeCheckoutBtn" class="text-gray-400 hover:text-gray-600">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <form id="checkoutForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nom & Prénom / Société</label>
+                        <input type="text" id="custName" required placeholder="Ex: Kouassi Daniel" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ville & Commune de livraison</label>
+                        <input type="text" id="custAddress" required placeholder="Ex: Abidjan, Cocody / Yamoussoukro" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Numéro Téléphone / WhatsApp</label>
+                        <input type="tel" id="custPhone" required placeholder="Ex: +225 0700000000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+
+                    <div class="pt-4 border-t">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Mode de Validation</label>
+                        <div class="grid grid-cols-1 gap-3">
+                            <label class="border p-3 rounded-lg flex items-center gap-3 cursor-pointer border-green-500 bg-green-50/50">
+                                <input type="radio" name="payment" value="whatsapp" checked class="text-green-600">
+                                <i class="fa-brands fa-whatsapp text-2xl text-green-600"></i>
+                                <div>
+                                    <span class="text-xs font-bold block text-gray-900">Commander directement via WhatsApp</span>
+                                    <span class="text-[11px] text-gray-500">Transmet instantanément votre liste à notre service commercial.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        Envoyer la commande WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 border-t border-gray-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <p class="text-sm">&copy; 2026 Ivoire Import-Export Abidjan. Tous droits réservés.</p>
+            <p class="text-xs text-gray-500">Port Autonome d'Abidjan • Zone Industrielle Yopougon / VRIDI</p>
+            <div class="flex justify-center space-x-4 text-lg pt-2">
+                <a href="#" class="hover:text-white"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-white"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" class="hover:text-white"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Numéro WhatsApp Commercial (Format international sans le +)
+        const WHATSAPP_NUMBER = "2250700000000"; 
+
+        // Catalogue Produits Import-Export Côte d'Ivoire
+        const products = [
+            { id: 1, name: "Fèves de Cacao Brut (Sac 60kg)", price: 150000, category: "Exportation", image: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=500&auto=format&fit=crop&q=60" },
+            { id: 2, name: "Noix de Cajou Brutes / Anacarde (Tonnes)", price: 450000, category: "Exportation", image: "https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=500&auto=format&fit=crop&q=60" },
+            { id: 3, name: "Riz Basmati Parfumé (Sac 25 kg)", price: 17500, category: "Importation", image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=60" },
+            { id: 4, name: "Huile de Palme Raffinée (Bidon 25L)", price: 22500, category: "Importation", image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=60" },
+            { id: 5, name: "Café Robusta Vert Ivoirien (Sac 60kg)", price: 120000, category: "Exportation", image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&auto=format&fit=crop&q=60" },
+            { id: 6, name: "Carton d'Huile de Tournesol (12x1L)", price: 16000, category: "Importation", image: "https://images.unsplash.com/photo-1620706857370-e1b9770e8bb1?w=500&auto=format&fit=crop&q=60" },
+            { id: 7, name: "Ordinateur Portable Business Core i7", price: 380000, category: "High-Tech", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60" },
+            { id: 8, name: "Smartphone Dual SIM 128Go", price: 95000, category: "High-Tech", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60" }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart_abidjan')) || [];
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        // Formatage Prix FCFA
+        function formatFCFA(amount) {
+            return new Intl.NumberFormat('fr-FR').format(amount) + ' FCFA';
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateCartUI();
+            setupEventListeners();
+        });
+
+        // Affichage des produits
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const noResults = document.getElementById('noResults');
+            
+            const filtered = products.filter(p => {
+                const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            grid.innerHTML = filtered.map(p => `
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col group">
+                    <div class="relative h-48 overflow-hidden bg-gray-100">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-xs font-bold px-2.5 py-1 rounded-full text-green-800">${p.category}</span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-bold text-gray-900 group-hover:text-green-600 transition-colors">${p.name}</h3>
+                            <p class="text-xl font-extrabold text-green-700 mt-2">${formatFCFA(p.price)}</p>
+                        </div>
+                        <button onclick="addToCart(${p.id})" class="w-full bg-gray-900 hover:bg-green-700 text-white font-medium py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            Ajouter au bon
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Gestion du Panier
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            saveCart();
+            updateCartUI();
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+            }
+            saveCart();
+            updateCartUI();
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart_abidjan', JSON.stringify(cart));
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cartBadge');
+            const container = document.getElementById('cartItemsContainer');
+            const totalEl = document.getElementById('cartTotal');
+
+            const totalCount = cart.reduce((acc, i) => acc + i.quantity, 0);
+            const totalPrice = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
+
+            if (totalCount > 0) {
+                badge.textContent = totalCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            totalEl.textContent = formatFCFA(totalPrice);
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 space-y-3">
+                        <i class="fa-solid fa-basket-shopping text-4xl text-gray-300"></i>
+                        <p class="text-gray-500 font-medium">Votre bon de commande est vide</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(i => `
+                    <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-xl">
+                        <img src="${i.image}" class="w-16 h-16 object-cover rounded-lg">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-sm text-gray-900 truncate">${i.name}</h4>
+                            <p class="text-xs text-gray-500 mt-0.5">${formatFCFA(i.price)}</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="updateQuantity(${i.id}, -1)" class="w-6 h-6 rounded bg-white border border-gray-200 text-xs font-bold hover:bg-gray-100">-</button>
+                                <span class="text-xs font-bold px-1">${i.quantity}</span>
+                                <button onclick="updateQuantity(${i.id}, 1)" class="w-6 h-6 rounded bg-white border border-gray-200 text-xs font-bold hover:bg-gray-100">+</button>
+                            </div>
+                        </div>
+                        <p class="font-bold text-sm text-green-700">${formatFCFA(i.price * i.quantity)}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Événements
+        function setupEventListeners() {
+            const cartModal = document.getElementById('cartModal');
+            document.getElementById('cartBtn').onclick = () => cartModal.classList.remove('hidden');
+            document.getElementById('closeCartBtn').onclick = () => cartModal.classList.add('hidden');
+            document.getElementById('cartOverlay').onclick = () => cartModal.classList.add('hidden');
+
+            const checkoutModal = document.getElementById('checkoutModal');
+            document.getElementById('checkoutBtn').onclick = () => {
+                if (cart.length === 0) return alert('Votre bon est vide !');
+                cartModal.classList.add('hidden');
+                checkoutModal.classList.remove('hidden');
+            };
+            document.getElementById('closeCheckoutBtn').onclick = () => checkoutModal.classList.add('hidden');
+
+            const handleSearch = (e) => {
+                searchQuery = e.target.value;
+                renderProducts();
+            };
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+            document.getElementById('mobileSearchInput').addEventListener('input', handleSearch);
+
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.onclick = (e) => {
+                    document.querySelectorAll('.category-btn').forEach(b => {
+                        b.classList.remove('bg-green-700', 'text-white');
+                        b.classList.add('bg-white', 'text-gray-600');
+                    });
+                    btn.classList.remove('bg-white', 'text-gray-600');
+                    btn.classList.add('bg-green-700', 'text-white');
+                    currentCategory = btn.dataset.category;
+                    renderProducts();
+                };
+            });
+
+            // Envoi de la commande sur WhatsApp
+            document.getElementById('checkoutForm').onsubmit = (e) => {
+                e.preventDefault();
+                const name = document.getElementById('custName').value;
+                const address = document.getElementById('custAddress').value;
+                const phone = document.getElementById('custPhone').value;
+
+                let message = `*NOUVELLE COMMANDE - IVOIRE IMPORT-EXPORT*\n\n`;
+                message += `*Client :* ${name}\n`;
+                message += `*Livraison / Ville :* ${address}\n`;
+                message += `*Contact :* ${phone}\n\n`;
+                message += `*DÉTAILS DES PRODUITS :*\n`;
+
+                let total = 0;
+                cart.forEach((item, index) => {
+                    const subtotal = item.price * item.quantity;
+                    total += subtotal;
+                    message += `${index + 1}. ${item.name} x${item.quantity} = ${formatFCFA(subtotal)}\n`;
+                });
+
+                message += `\n*TOTAL ESTIMÉ : ${formatFCFA(total)}*`;
+
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
+
+                cart = [];
+                saveCart();
+                updateCartUI();
+                checkoutModal.classList.add('hidden');
+            };
+        }
+    </script>
+</body>
+</html>
